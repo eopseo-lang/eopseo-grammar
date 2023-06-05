@@ -42,7 +42,7 @@ importEx
     : IMPORT namespace
     ;
 
-//// value
+//// type
 defaultType
     : Integer | Double | String
     ;
@@ -61,7 +61,7 @@ tuple
     : LPAREN type* RPAREN
     ;
 
-//// rule
+//// theory
 theory
     : forAll? type ARROW type
     ;
@@ -78,13 +78,13 @@ reference
     : (namespace DOT)? commonId
     ;
 
-//// new value of type
+//// new type
 new
     : NEW commonId #newType
     | ABSTRACT NEW commonId #newAbstractType
     ;
 
-////
+//// identifier
 commonId
     : ID
     | OPID
