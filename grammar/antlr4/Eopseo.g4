@@ -22,7 +22,7 @@ file
     : package import_ fileCompo*
     ;
 fileCompo
-    : new
+    : newType
     | theory
     ;
 
@@ -79,9 +79,8 @@ reference
     ;
 
 //// new type
-new
-    : NEW commonId #newType
-    | ABSTRACT NEW commonId #newAbstractType
+newType
+    : NEW commonId
     ;
 
 //// identifier
@@ -113,7 +112,6 @@ LINE_COMMENT
 PACKAGE: 'package' ;
 IMPORT: 'import' ;
 NEW: 'new' ;
-ABSTRACT: 'abstract' ;
 
 // primitive type
 RINT: 'RInt' ;
