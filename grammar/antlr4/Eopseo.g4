@@ -19,7 +19,7 @@ grammar Eopseo;
 ////// Parser //////
 
 file
-    : package? fileCompo*
+    : package import_ fileCompo*
     ;
 fileCompo
     : new
@@ -28,39 +28,49 @@ fileCompo
 
 //// package
 package
-    : PACKAGE namespace
+    : (PACKAGE namespace)?
     ;
 namespace
     : (ID DOT)* ID
     ;
 
 //// import
-//TODO: make grammar about 'import'
+import_
+    : importEx*
+    ;
+importEx
+    : IMPORT namespace
+    ;
 
 //// value
-defaultValue
+defaultType
     : Integer | Double | String
     ;
-value
-    : defaultValue
+type
+    : defaultType
+    | primitiveType
     | reference
     | tuple
     ;
 
+primitiveType
+    : RINT | RDouble | RString
+    ;
+
 tuple
-    : LPAREN value* RPAREN
+    : LPAREN type* RPAREN
     ;
 
 //// rule
 theory
-    : forAll? value ARROW value
+    : forAll? type ARROW type
     ;
 
 forAll
     : LSQUARE forAllCompo+ RSQUARE
     ;
 forAllCompo
-    : commonId TILDE value
+    : commonId ARROW type
     ;
 
 //// reference
@@ -105,10 +115,14 @@ IMPORT: 'import' ;
 NEW: 'new' ;
 ABSTRACT: 'abstract' ;
 
+// primitive type
+RINT: 'RInt' ;
+RDouble: 'RDouble' ;
+RString: 'RString' ;
+
 //// Signs
 
 ARROW: '=>' ;
-TILDE: '~' ;
 LPAREN: '(' ;
 RPAREN: ')' ;
 LSQUARE: '[' ;
@@ -126,7 +140,7 @@ fragment IDLETTERTAIL
     :   [-_a-zA-Z0-9]  ;
 
 fragment IDLETTERSPECIAL
-    :   [-<>$.|+=*&%^@!?/\\:;,]  ;
+    :   [-<>$.|+=*&%^@!?/\\:;,~]  ;
 
 ID: IDLETTERHEAD IDLETTERTAIL* ;
 OPID: IDLETTERSPECIAL+ ;
