@@ -44,7 +44,7 @@ importEx
 
 //// type
 defaultType
-    : Integer | Double | String
+    : Integer | Double | String | rBoolean
     ;
 type
     : defaultType
@@ -53,8 +53,12 @@ type
     | tuple
     ;
 
+rBoolean
+    : RTRUE | RFALSE
+    ;
+
 primitiveType
-    : RINT | RDouble | RString
+    : RINT | RDOUBLE | RSTRING | RBOOLEAN
     ;
 
 tuple
@@ -63,14 +67,15 @@ tuple
 
 //// theory
 theory
-    : forAll? type ARROW type
+    : forAll? inside=type RARROW outside=type
+    | forAll? outside=type LARROW inside=type
     ;
 
 forAll
     : LSQUARE forAllCompo+ RSQUARE
     ;
 forAllCompo
-    : commonId ARROW type
+    : commonId (RARROW type)?
     ;
 
 //// reference
@@ -113,14 +118,20 @@ PACKAGE: 'package' ;
 IMPORT: 'import' ;
 NEW: 'new' ;
 
+// rBoolean
+RTRUE: 'rTrue' ;
+RFALSE: 'rFalse' ;
+
 // primitive type
 RINT: 'RInt' ;
-RDouble: 'RDouble' ;
-RString: 'RString' ;
+RDOUBLE: 'RDouble' ;
+RSTRING: 'RString' ;
+RBOOLEAN: 'RBoolean' ;
 
 //// Signs
 
-ARROW: '=>' ;
+RARROW: '->' ;
+LARROW: '<-' ;
 LPAREN: '(' ;
 RPAREN: ')' ;
 LSQUARE: '[' ;
