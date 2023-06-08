@@ -67,8 +67,12 @@ tuple
 
 //// theory
 theory
-    : forAll? inside=type RARROW outside=type
-    | forAll? outside=type LARROW inside=type
+    : compiledId? forAll? inside=type RARROW outside=type
+    | compiledId? forAll? outside=type LARROW inside=type
+    ;
+
+compiledId
+    : SHARP ID
     ;
 
 forAll
@@ -132,6 +136,7 @@ RBOOLEAN: 'RBoolean' ;
 
 RARROW: '->' ;
 LARROW: '<-' ;
+SHARP: '#' ;
 LPAREN: '(' ;
 RPAREN: ')' ;
 LSQUARE: '[' ;
