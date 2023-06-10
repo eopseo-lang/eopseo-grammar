@@ -19,7 +19,7 @@ grammar Eopseo;
 ////// Parser //////
 
 file
-    : package import_ fileCompo*
+    : package_ import_ fileCompo*
     ;
 fileCompo
     : newType
@@ -27,10 +27,10 @@ fileCompo
     ;
 
 //// package
-package
-    : (PACKAGE namespace)?
+package_
+    : (PACKAGE namespace_)?
     ;
-namespace
+namespace_
     : (ID DOT)* ID
     ;
 
@@ -39,18 +39,18 @@ import_
     : importEx*
     ;
 importEx
-    : IMPORT namespace
+    : IMPORT namespace_
     ;
 
 //// type
 defaultType
     : Integer | Double | String | rBoolean
     ;
-type
+typeEx
     : defaultType
     | primitiveType
     | reference
-    | tuple
+    | tupleType
     ;
 
 rBoolean
@@ -61,14 +61,14 @@ primitiveType
     : RINT | RDOUBLE | RSTRING | RBOOLEAN
     ;
 
-tuple
-    : LPAREN type* RPAREN
+tupleType
+    : LPAREN typeEx* RPAREN
     ;
 
 //// theory
 theory
-    : compiledId? forAll? inside=type RARROW outside=type
-    | compiledId? forAll? outside=type LARROW inside=type
+    : compiledId? forAll? inside=typeEx RARROW outside=typeEx
+    | compiledId? forAll? outside=typeEx LARROW inside=typeEx
     ;
 
 compiledId
@@ -79,12 +79,12 @@ forAll
     : LSQUARE forAllCompo+ RSQUARE
     ;
 forAllCompo
-    : commonId (RARROW type)?
+    : commonId (RARROW typeEx)?
     ;
 
 //// reference
 reference
-    : (namespace DOT)? commonId
+    : (namespace_ DOT)? commonId
     ;
 
 //// new type
