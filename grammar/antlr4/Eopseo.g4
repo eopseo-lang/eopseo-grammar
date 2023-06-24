@@ -23,7 +23,7 @@ file
     ;
 fileCompo
     : newType
-    | theory
+    | theorem
     ;
 
 //// package
@@ -66,7 +66,7 @@ tupleType
     ;
 
 //// theory
-theory
+theorem
     : compiledId? forAll? inside=typeEx RARROW outside=typeEx
     | compiledId? forAll? outside=typeEx LARROW inside=typeEx
     ;
